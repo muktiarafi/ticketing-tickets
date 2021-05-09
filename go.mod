@@ -17,7 +17,7 @@ require (
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/lithammer/shortuuid/v3 v3.0.6 // indirect
 	github.com/mattn/go-colorable v0.1.8 // indirect
-	github.com/muktiarafi/ticketing-common v1.0.10
+	github.com/muktiarafi/ticketing-common v1.0.11
 	github.com/ory/dockertest/v3 v3.6.5
 	github.com/prometheus/client_golang v1.10.0
 	github.com/prometheus/common v0.23.0
