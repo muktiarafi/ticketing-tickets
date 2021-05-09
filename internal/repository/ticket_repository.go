@@ -6,8 +6,8 @@ import (
 )
 
 type TicketRepostiory interface {
-	Insert(userID int, ticketDTO *model.TicketDTO) (*entity.Ticket, error)
+	Insert(userID int64, ticketDTO *model.TicketDTO) (*entity.Ticket, error)
 	Find() ([]*entity.Ticket, error)
-	FindOne(ticketId int) (*entity.Ticket, error)
+	FindOne(ticketId int64) (*entity.Ticket, error)
 	Update(ticket *entity.Ticket) (*entity.Ticket, error)
 }

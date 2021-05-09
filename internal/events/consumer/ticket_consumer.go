@@ -2,10 +2,9 @@ package consumer
 
 import (
 	"github.com/ThreeDotsLabs/watermill/message"
-	common "github.com/muktiarafi/ticketing-common"
+	"github.com/muktiarafi/ticketing-common/types"
 	"github.com/muktiarafi/ticketing-tickets/internal/events/producer"
 	"github.com/muktiarafi/ticketing-tickets/internal/repository"
-	"github.com/vmihailenco/msgpack"
 )
 
 type TicketConsumer struct {
@@ -21,8 +20,10 @@ func NewTicketConsumer(producer producer.TicketProducer, ticketRepo repository.T
 }
 
 func (c *TicketConsumer) OrderCreated(msg *message.Message) error {
-	orderCreatedData := new(common.OrderCreatedEvent)
-	msgpack.Unmarshal(msg.Payload, &orderCreatedData)
+	orderCreatedData := new(types.OrderCreatedEvent)
+	if err := orderCreatedData.Unmarshal(msg.Payload); err != nil {
+		return err
+	}
 
 	ticket, err := c.FindOne(orderCreatedData.TicketID)
 	if err != nil {
@@ -45,8 +46,10 @@ func (c *TicketConsumer) OrderCreated(msg *message.Message) error {
 }
 
 func (c *TicketConsumer) OrderCancelled(msg *message.Message) error {
-	orderCreatedData := new(common.OrderCreatedEvent)
-	msgpack.Unmarshal(msg.Payload, &orderCreatedData)
+	orderCreatedData := new(types.OrderCreatedEvent)
+	if err := orderCreatedData.Unmarshal(msg.Payload); err != nil {
+		return err
+	}
 
 	ticket, err := c.FindOne(orderCreatedData.TicketID)
 	if err != nil {

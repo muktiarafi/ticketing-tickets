@@ -19,7 +19,7 @@ func NewTicketService(ticketRepo repository.TicketRepostiory) TicketService {
 	}
 }
 
-func (s *TicketServiceImpl) Create(userID int, ticketDTO *model.TicketDTO) (*entity.Ticket, error) {
+func (s *TicketServiceImpl) Create(userID int64, ticketDTO *model.TicketDTO) (*entity.Ticket, error) {
 	return s.Insert(userID, ticketDTO)
 }
 
@@ -27,11 +27,11 @@ func (s *TicketServiceImpl) Find() ([]*entity.Ticket, error) {
 	return s.TicketRepostiory.Find()
 }
 
-func (s *TicketServiceImpl) FindOne(ticketID int) (*entity.Ticket, error) {
+func (s *TicketServiceImpl) FindOne(ticketID int64) (*entity.Ticket, error) {
 	return s.TicketRepostiory.FindOne(ticketID)
 }
 
-func (s *TicketServiceImpl) Update(userID int, ticketID int, ticketDTO *model.TicketDTO) (*entity.Ticket, error) {
+func (s *TicketServiceImpl) Update(userID int64, ticketID int64, ticketDTO *model.TicketDTO) (*entity.Ticket, error) {
 	ticket, err := s.TicketRepostiory.FindOne(ticketID)
 	if err != nil {
 		return nil, err

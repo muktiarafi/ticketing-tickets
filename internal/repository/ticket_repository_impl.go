@@ -19,7 +19,7 @@ func NewTicketRepository(db *driver.DB) TicketRepostiory {
 	}
 }
 
-func (r *TicketRepositoryImpl) Insert(userID int, ticketDTO *model.TicketDTO) (*entity.Ticket, error) {
+func (r *TicketRepositoryImpl) Insert(userID int64, ticketDTO *model.TicketDTO) (*entity.Ticket, error) {
 	ctx, cancel := newDBContext()
 	defer cancel()
 
@@ -74,7 +74,7 @@ func (r *TicketRepositoryImpl) Find() ([]*entity.Ticket, error) {
 	return tickets, nil
 }
 
-func (r *TicketRepositoryImpl) FindOne(ticketID int) (*entity.Ticket, error) {
+func (r *TicketRepositoryImpl) FindOne(ticketID int64) (*entity.Ticket, error) {
 	ctx, cancel := newDBContext()
 	defer cancel()
 

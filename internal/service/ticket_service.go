@@ -6,8 +6,8 @@ import (
 )
 
 type TicketService interface {
-	Create(int, *model.TicketDTO) (*entity.Ticket, error)
+	Create(int64, *model.TicketDTO) (*entity.Ticket, error)
 	Find() ([]*entity.Ticket, error)
-	FindOne(ticketID int) (*entity.Ticket, error)
-	Update(userID, ticketID int, ticketDTO *model.TicketDTO) (*entity.Ticket, error)
+	FindOne(ticketID int64) (*entity.Ticket, error)
+	Update(userID, ticketID int64, ticketDTO *model.TicketDTO) (*entity.Ticket, error)
 }

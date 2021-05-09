@@ -158,7 +158,7 @@ func TestTicketHandlerShow(t *testing.T) {
 			t.Errorf("Expecting title to be %q, but got %q instead", ticketDTO.Title, ticket.Title)
 		}
 
-		ticketID := strconv.Itoa(apiResponse.Data.ID)
+		ticketID := strconv.FormatInt(apiResponse.Data.ID, 10)
 		request = httptest.NewRequest(http.MethodGet, "/api/tickets/"+ticketID, nil)
 		response = httptest.NewRecorder()
 		router.ServeHTTP(response, request)
@@ -217,7 +217,7 @@ func TestTicketHandlerUpdate(t *testing.T) {
 		ticketDTO.Price = 18000
 		ticketJSON, _ = json.Marshal(ticketDTO)
 
-		ticketID := strconv.Itoa(ticket.ID)
+		ticketID := strconv.FormatInt(ticket.ID, 10)
 		request = httptest.NewRequest(http.MethodPut, "/api/tickets/"+ticketID, bytes.NewBuffer(ticketJSON))
 		request.Header.Set("Content-Type", "application/json")
 		request.AddCookie(cookie)

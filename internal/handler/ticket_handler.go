@@ -51,7 +51,7 @@ func (h *TicketHandler) NewTicket(c echo.Context) error {
 		return err
 	}
 
-	ticket, err := h.TicketService.Create(userPayload.ID, ticketDTO)
+	ticket, err := h.TicketService.Create(int64(userPayload.ID), ticketDTO)
 	if err != nil {
 		return err
 	}
@@ -74,7 +74,7 @@ func (h *TicketHandler) GetAll(c echo.Context) error {
 
 func (h *TicketHandler) Show(c echo.Context) error {
 	ticketIDStr := c.Param("ticketID")
-	ticketID, err := strconv.Atoi(ticketIDStr)
+	ticketID, err := strconv.ParseInt(ticketIDStr, 10, 64)
 	if err != nil {
 		return &common.Error{
 			Code:    common.EINVALID,
@@ -102,7 +102,7 @@ func (h *TicketHandler) Update(c echo.Context) error {
 	}
 
 	ticketIDStr := c.Param("ticketID")
-	ticketID, err := strconv.Atoi(ticketIDStr)
+	ticketID, err := strconv.ParseInt(ticketIDStr, 10, 64)
 	const op = "TicketHandler.Update"
 	if err != nil {
 		return &common.Error{
@@ -122,7 +122,7 @@ func (h *TicketHandler) Update(c echo.Context) error {
 		return err
 	}
 
-	updatedTicket, err := h.TicketService.Update(userPayload.ID, ticketID, ticketDTO)
+	updatedTicket, err := h.TicketService.Update(int64(userPayload.ID), ticketID, ticketDTO)
 	if err != nil {
 		return err
 	}
