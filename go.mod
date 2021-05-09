@@ -19,7 +19,6 @@ require (
 	github.com/ory/dockertest/v3 v3.6.5
 	github.com/prometheus/client_golang v1.10.0
 	github.com/prometheus/common v0.23.0
-	github.com/vmihailenco/msgpack v4.0.4+incompatible
 	golang.org/x/crypto v0.0.0-20210506145944-38f3c27a63bf // indirect
 	golang.org/x/net v0.0.0-20210508051633-16afe75a6701 // indirect
 	golang.org/x/sys v0.0.0-20210507161434-a76c4d0a0096 // indirect

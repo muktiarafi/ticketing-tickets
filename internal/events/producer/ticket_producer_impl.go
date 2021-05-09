@@ -6,7 +6,6 @@ import (
 	common "github.com/muktiarafi/ticketing-common"
 	"github.com/muktiarafi/ticketing-common/types"
 	"github.com/muktiarafi/ticketing-tickets/internal/entity"
-	"github.com/vmihailenco/msgpack"
 )
 
 type TicketPublisherImpl struct {
@@ -27,12 +26,12 @@ func (p *TicketPublisherImpl) Created(ticket *entity.Ticket) error {
 		Price:   ticket.Price,
 		UserID:  ticket.UserID,
 	}
-	ticketMSGPack, err := msgpack.Marshal(ticketCreatedEvent)
+	ticketBytes, err := ticketCreatedEvent.Marshal()
 	if err != nil {
 		return err
 	}
 
-	msg := message.NewMessage(watermill.NewUUID(), ticketMSGPack)
+	msg := message.NewMessage(watermill.NewUUID(), ticketBytes)
 	return p.Publish(common.TicketCreated, msg)
 }
 
@@ -45,11 +44,11 @@ func (p *TicketPublisherImpl) Updated(ticket *entity.Ticket) error {
 		UserID:  ticket.UserID,
 		OrderID: ticket.OrderID,
 	}
-	ticketMSGPack, err := msgpack.Marshal(ticketUpdatedEvent)
+	ticketBytes, err := ticketUpdatedEvent.Marshal()
 	if err != nil {
 		return err
 	}
 
-	msg := message.NewMessage(watermill.NewUUID(), ticketMSGPack)
+	msg := message.NewMessage(watermill.NewUUID(), ticketBytes)
 	return p.Publish(common.TIcketUpdated, msg)
 }
