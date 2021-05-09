@@ -29,11 +29,11 @@ jobs:
     - name: build image
       run: |
         docker build \
-        -t muktiarafi/ticketing-auth:latest \
-        -t muktiarafi/ticketing-auth:$GITHUB_SHA \
+        -t muktiarafi/ticketing-tickets:latest \
+        -t muktiarafi/ticketing-tickets:$GITHUB_SHA \
         .
 
     - name: push
       run: |
-        docker push muktiarafi/ticketing-auth:latest
-        docker push muktiarafi/ticketing-auth:$GITHUB_SHA
+        docker push muktiarafi/ticketing-tickets:latest
+        docker push muktiarafi/ticketing-tickets:$GITHUB_SHA
