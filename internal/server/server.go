@@ -38,7 +38,7 @@ func SetupServer() *echo.Echo {
 	ticketService := service.NewTicketService(ticketRepository)
 
 	producerBrokers := []string{config.NewProducerBroker()}
-	commonPublisher, err := common.CreatePublisher(producerBrokers, watermill.NewStdLogger(false, false))
+	commonPublisher, err := common.NewPublisher(producerBrokers, watermill.NewStdLogger(false, false))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -46,16 +46,21 @@ func SetupServer() *echo.Echo {
 	ticketHandler := handler.NewTicketHandler(ticketPublisher, ticketService)
 	ticketHandler.Route(e)
 
-	consumerBrokers := []string{config.NewConsumerBroker()}
-	subscriber, err := common.CreateSubscriber(consumerBrokers, "tickets-service", watermill.NewStdLogger(false, false))
+	subscriberConfig := &common.SubscriberConfig{
+		Brokers:       []string{config.NewConsumerBroker()},
+		ConsumerGroup: "tickets-service",
+		FromBeginning: true,
+		LoggerAdapter: watermill.NewStdLogger(false, false),
+	}
+	subscriber, err := common.NewSubscriber(subscriberConfig)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	ticketConsumer := consumer.NewTicketConsumer(ticketPublisher, ticketRepository)
-	consumer := common.NewConsumer(subscriber)
-	consumer.On(common.OrderCreated, ticketConsumer.OrderCreated)
-	consumer.On(common.OrderCancelled, ticketConsumer.OrderCancelled)
+	commonConsumer := common.NewConsumer(subscriber)
+	commonConsumer.On(common.OrderCreated, ticketConsumer.OrderCreated)
+	commonConsumer.On(common.OrderCancelled, ticketConsumer.OrderCancelled)
 
 	return e
 }
