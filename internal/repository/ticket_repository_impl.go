@@ -54,9 +54,10 @@ func (r *TicketRepositoryImpl) Find() ([]*entity.Ticket, error) {
 	if err != nil {
 		return tickets, &common.Error{Op: op, Err: err}
 	}
+	defer rows.Close()
 
-	ticket := new(entity.Ticket)
 	for rows.Next() {
+		ticket := new(entity.Ticket)
 		if err := rows.Scan(
 			&ticket.ID,
 			&ticket.Title,
