@@ -7,20 +7,17 @@ import (
 
 	"github.com/labstack/echo/v4"
 	common "github.com/muktiarafi/ticketing-common"
-	"github.com/muktiarafi/ticketing-tickets/internal/events/producer"
 	"github.com/muktiarafi/ticketing-tickets/internal/model"
 	"github.com/muktiarafi/ticketing-tickets/internal/service"
 )
 
 type TicketHandler struct {
-	producer.TicketProducer
 	service.TicketService
 }
 
-func NewTicketHandler(producer producer.TicketProducer, ticketService service.TicketService) *TicketHandler {
+func NewTicketHandler(ticketService service.TicketService) *TicketHandler {
 	return &TicketHandler{
-		TicketProducer: producer,
-		TicketService:  ticketService,
+		TicketService: ticketService,
 	}
 }
 
@@ -53,10 +50,6 @@ func (h *TicketHandler) NewTicket(c echo.Context) error {
 
 	ticket, err := h.TicketService.Create(int64(userPayload.ID), ticketDTO)
 	if err != nil {
-		return err
-	}
-
-	if err := h.TicketProducer.Created(ticket); err != nil {
 		return err
 	}
 
@@ -124,10 +117,6 @@ func (h *TicketHandler) Update(c echo.Context) error {
 
 	updatedTicket, err := h.TicketService.Update(int64(userPayload.ID), ticketID, ticketDTO)
 	if err != nil {
-		return err
-	}
-
-	if err := h.TicketProducer.Updated(updatedTicket); err != nil {
 		return err
 	}
 

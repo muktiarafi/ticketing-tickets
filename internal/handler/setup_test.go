@@ -44,10 +44,10 @@ func TestMain(m *testing.M) {
 	router.HTTPErrorHandler = common.CustomErrorHandler
 
 	ticketRepository := repository.NewTicketRepository(db)
-	ticketService := service.NewTicketService(ticketRepository)
 
 	ticketPublisher := &ticketPublisherStub{}
-	ticketHandler := NewTicketHandler(ticketPublisher, ticketService)
+	ticketService := service.NewTicketService(ticketPublisher, ticketRepository)
+	ticketHandler := NewTicketHandler(ticketService)
 	ticketHandler.Route(router)
 
 	code := m.Run()
